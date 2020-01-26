@@ -1,0 +1,30 @@
+{
+  "name": "node-sms-pdu",
+  "version": "0.0.1",
+  "description": "The node-sms-pdu is a SMS-SUBMIT PDU (Packet Data Unit) generator. This module supports the GSM 7-bit default alphabet encoding and the UCS-2 16-bit alphabet encoding. Besides, it supports the Concatenated (or Multipart or Long) SMS.",
+  "main": "./lib/sms-pdu.js",
+  "files": [
+    "lib"
+  ],
+  "directories": {
+    "lib": "./lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "SMS",
+    "PDU",
+    "GSM",
+    "UCS-2"
+  ],
+  "homepage": "https://github.com/futomi",
+  "author": "Futomi Hatano <futomi.hatano@gmail.com> (https://github.com/futomi)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/futomi/node-sms-pdu.git"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {}
+}
