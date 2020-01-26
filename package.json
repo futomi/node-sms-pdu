@@ -1,6 +1,6 @@
 {
   "name": "node-sms-pdu",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The node-sms-pdu is a SMS-SUBMIT PDU (Packet Data Unit) generator. This module supports the GSM 7-bit default alphabet encoding and the UCS-2 16-bit alphabet encoding. Besides, it supports the Concatenated (or Multipart or Long) SMS.",
   "main": "./lib/sms-pdu.js",
   "files": [
