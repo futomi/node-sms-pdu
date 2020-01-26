@@ -212,6 +212,8 @@ When a long message are divided into some segments, each segment requires 6 byte
 ---------------------------------------
 ## <a id="Release-Note">Release Note</a>
 
+* v0.0.2 (2020-01-27)
+  * Revised this document
 * v0.0.1 (2020-01-26)
   * First public release
 
