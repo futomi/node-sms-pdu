@@ -23,7 +23,7 @@ $ npm install node-sms-pdu
   * [Generating a SUBMIT-PDU for long text](#Quick-Start-3)
 * [`SmsPdu` object](#SmsPdu-object)
   * [Creating `SmsPdu` object](#Creating-SmsPdu-object)
-  * [`getPowerStatus()` method](#BraviaSerialControl-getPowerStatus-method)
+  * [`generateSubmit()` method](#SmsPdu-generateSubmit-method)
 * [Technical Note](#Technical-Note)
   * [Character encodings and packet size](#Character-encodings)
   * [Concatenated SMS](#Concatenated-SMS)
