@@ -66,7 +66,7 @@ The code above will output the result as follows:
 This module supports multi-byte characters. The code below, the text is Japanese "こんにちわ" which means "Hello":
 
 ```javascript
-const pdu_list = smsPdu.generateSubmit('09012345678, 'こんにちわ');
+const pdu_list = smsPdu.generateSubmit('09012345678', 'こんにちわ');
 console.log(pdu_list);
 ```
 
