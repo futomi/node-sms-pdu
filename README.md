@@ -1,7 +1,7 @@
 node-sms-pdu
 ===============
 
-The node-sms-pdu is a SMS-SUBMIT PDU (Packet Data Unit) generator. This module supports the GSM 7-bit default alphabet encoding and the UCS-2 16-bit alphabet encoding. Besides, it supports the Concatenated (or Multipart or Long) SMS.
+The node-sms-pdu is a SMS-SUBMIT PDU (Packet Data Unit) generator and SMS-SUBMIT/DELIVER PDU parser. This module supports the GSM 7-bit default alphabet encoding and the UCS-2 16-bit alphabet encoding. Besides, it supports the Concatenated (or Multipart or Long) SMS.
 
 ## Dependencies
 
@@ -24,6 +24,7 @@ $ npm install node-sms-pdu
 * [`SmsPdu` object](#SmsPdu-object)
   * [Creating `SmsPdu` object](#Creating-SmsPdu-object)
   * [`generateSubmit()` method](#SmsPdu-generateSubmit-method)
+  * [`parse()` method](#SmsPdu-parse-method)
 * [Technical Note](#Technical-Note)
   * [Character encodings and packet size](#Character-encodings)
   * [Concatenated SMS](#Concatenated-SMS)
@@ -136,8 +137,6 @@ const smsPdu = require('node-sms-pdu');
 
 In the code snippet above, the variable `smsPdu` is a `SmsPdu` object. For now, the `SmsPdu` object has only [`generateSubmit()`](#SmsPdu-generateSubmit-method) method as described in sections below.
 
-
----------------------------------------
 ### <a id="SmsPdu-generateSubmit-method">`generateSubmit()` method</a>
 
 The `generateSubmit()` method generates PDUs from the specified telephone number and message text. This method takes up to 3 arguments. The first one is a telephone number, the second one is a message text, the 3rd argument is an object containing option parameters.
@@ -190,6 +189,96 @@ The `encoding` indicates the character encoding. The value can be `"gsm"` or `"u
 
 This method automatically determines the appropriate encoding. If you want to force your preferred encoding, you can specify the encoding to this method. If the message text cannot be encoded to the specified encoding, this method throws an exception.
 
+### <a id="SmsPdu-parse-method">`parse()` method</a>
+
+This method parses the specified SMS-SUBMIT/DELIVER PDU data. The PDU data must be a HEX string or a `Buffer` object.
+
+```javascript
+const data = smsPdu.parse('0001000B818080674523F1000005C8F79D9C07');
+console.log(JSON.stringify(data, null, ' '));
+```
+
+The code above parses a SMS-SUBMIT PDU. It will output the result as follows:
+
+```
+{
+  "smsc": null,
+  "type": "SMS-SUBMIT",
+  "destination": "08087654321",
+  "period": null,
+  "concat": null,
+  "text": "Howdy"
+}
+```
+
+Let's see another example:
+
+```javascript
+const data = smsPdu.parse('0891180978563412F0040B809010325476F80008022031611463630A30533093306B3061306F');
+console.log(JSON.stringify(data, null, ' '));
+```
+
+The code above parses a SMS-DELIVER PDU. It will output the result as follows. (In this case, the SMS message is Japanese text which means "Hello".)
+
+```
+{
+  "smsc": "+8190876543210",
+  "type": "SMS-DELIVER",
+  "origination": "09012345678",
+  "timestamp": "2020-02-13T16:41:36+09:00",
+  "concat": null,
+  "text": "こんにちは"
+}
+```
+
+As you can see the above examples, the items in the results are different depending on the message type.
+
+#### Common items
+
+Property      | Type   | Description
+:-------------|:-------|:-------------------------
+`smsc`        | String | SMSC address. In the case of SMS-SUBMIT, this value is always `null`.
+`type`        | String | Message type. The value is `"SMS-SUBMIT"` or `"SMS-DELIVER"`.
+`concat`      | Object | Concatenated SMS (CSMS) information. If no infomation exists in the PDU, this value will be `null`.
+&nbsp;&nbsp;&nbsp;&nbsp;`reference` | Integer | CSMS reference number.
+&nbsp;&nbsp;&nbsp;&nbsp;`total`     | Integer | Total number of parts.
+&nbsp;&nbsp;&nbsp;&nbsp;`sequence`  | Integer | This part's number in the sequence.
+`text`        | String | SMS text.
+
+
+#### SMS-SUBMIT specific items
+
+Property      | Type   | Description
+:-------------|:-------|:-------------------------
+`destination` | String | Destination address (phone number).
+`period`      | String | Validity period. If the value is `"4d"`, it means 4 days. The unit could be `"m"` (minutes), `"d"` (days), `"w"` (weeks). If no validity period information exists in the PDU, this value will be `null`.
+
+#### SMS-DELIVER specific items
+
+Property      | Type   | Description
+:-------------|:-------|:-------------------------
+`origination` | String | Origination address (phone number).
+`timestamp`   | String | Time stamp. 
+
+#### Parse error
+
+If the PDU data passed to this method is invalid or this method fails to parse the PDU data, this method returns an object containing the `error` property. The value of the `error` property is an [`Error`](https://nodejs.org/api/errors.html) object. Note that this method does not throw an exeption.
+
+```javascript
+const data = smsPdu.parse('0002000B818080674523F1000005C8F79D9C07');
+if(data.error) {
+  console.log(error.message);
+} else {
+  console.log(JSON.stringify(data, null, ' '));
+}
+```
+
+The code above will output an error message as follows:
+
+```
+The message type is not supported: MTI=2
+```
+
 ---------------------------------------
 ## <a id="Technical-Note">Technical Note</a>
 
@@ -212,6 +301,8 @@ When a long message are divided into some segments, each segment requires 6 byte
 ---------------------------------------
 ## <a id="Release-Note">Release Note</a>
 
+* v0.1.0 (2020-02-20)
+  * Newly added the [`parse()`](#SmsPdu-parse-method) method.
 * v0.0.2 - 0.0.4 (2020-01-27)
   * Revised this document and .npmignore
 * v0.0.1 (2020-01-26)
