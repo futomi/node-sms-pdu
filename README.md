@@ -262,7 +262,7 @@ Property      | Type   | Description
 
 #### Parse error
 
-If the PDU data passed to this method is invalid or this method fails to parse the PDU data, this method returns an object containing the `error` property. The value of the `error` property is an [`Error`](https://nodejs.org/api/errors.html) object. Note that this method does not throw an exeption.
+If the PDU data passed to this method is invalid or this method fails to parse the PDU data, this method returns an object containing the `error` property. The value of the `error` property is an [`Error`](https://nodejs.org/api/errors.html) object. Note that this method does not throw an exception.
 
 ```javascript
 const data = smsPdu.parse('0002000B818080674523F1000005C8F79D9C07');
