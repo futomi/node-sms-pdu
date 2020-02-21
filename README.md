@@ -301,6 +301,8 @@ When a long message are divided into some segments, each segment requires 6 byte
 ---------------------------------------
 ## <a id="Release-Note">Release Note</a>
 
+* v0.1.1 (2020-02-21)
+  * Corrected the header comment in each script (The module name was wrong.). You don't need to update this module. Nothing was changed.
 * v0.1.0 (2020-02-20)
   * Newly added the [`parse()`](#SmsPdu-parse-method) method.
 * v0.0.2 - 0.0.4 (2020-01-27)
