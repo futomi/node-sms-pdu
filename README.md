@@ -204,6 +204,7 @@ The code above parses a SMS-SUBMIT PDU. It will output the result as follows:
 {
   "smsc": null,
   "type": "SMS-SUBMIT",
+  "reference": 0,
   "destination": "08087654321",
   "period": null,
   "concat": null,
@@ -248,10 +249,11 @@ Property      | Type   | Description
 
 #### SMS-SUBMIT specific items
 
-Property      | Type   | Description
-:-------------|:-------|:-------------------------
-`destination` | String | Destination address (phone number).
-`period`      | String | Validity period. If the value is `"4d"`, it means 4 days. The unit could be `"m"` (minutes), `"d"` (days), `"w"` (weeks). If no validity period information exists in the PDU, this value will be `null`.
+Property      | Type    | Description
+:-------------|:--------|:-------------------------
+`reference`   | Integer | Message reference Number
+`destination` | String  | Destination address (phone number).
+`period`      | String  | Validity period. If the value is `"4d"`, it means 4 days. The unit could be `"m"` (minutes), `"d"` (days), `"w"` (weeks). If no validity period information exists in the PDU, this value will be `null`.
 
 #### SMS-DELIVER specific items
 
@@ -301,6 +303,8 @@ When a long message are divided into some segments, each segment requires 6 byte
 ---------------------------------------
 ## <a id="Release-Note">Release Note</a>
 
+* v0.2.0 (2020-02-23)
+  * Added the `reference` property in [the SMS-SUBMIT specific items](#sms-submit-specific-items), which means the message reference number.
 * v0.1.1 (2020-02-21)
   * Corrected the header comment in each script (The module name was wrong.). You don't need to update this module. Nothing was changed.
 * v0.1.0 (2020-02-20)
