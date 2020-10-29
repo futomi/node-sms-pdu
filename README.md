@@ -303,6 +303,8 @@ When a long message are divided into some segments, each segment requires 6 byte
 ---------------------------------------
 ## <a id="Release-Note">Release Note</a>
 
+* v0.3.0 (2020-10-29)
+  * Added support for decoding (parsing) the alphanumeric representation of the origination address. (thanks to [@ingria](https://github.com/futomi/node-sms-pdu/issues/1))
 * v0.2.0 (2020-02-23)
   * Added the `reference` property in [the SMS-SUBMIT specific items](#sms-submit-specific-items), which means the message reference number.
 * v0.1.1 (2020-02-21)
