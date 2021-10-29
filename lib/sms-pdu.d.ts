@@ -54,7 +54,7 @@ declare namespace nodeSmsPdu {
      */
     text: string
   }
-  type PDUMessageSubmit = {
+  type PDUMessageSubmit = PDUMessageCommon & {
     /**
      * Message type
      */
@@ -78,7 +78,7 @@ declare namespace nodeSmsPdu {
      */
     period: `${number}${'m'|'d'|'w'}`|null
   }
-  type PDUMessageDeliver = {
+  type PDUMessageDeliver = PDUMessageCommon & {
     smsc: string
     /**
      * Origination address (phone number).
@@ -89,13 +89,13 @@ declare namespace nodeSmsPdu {
      */
     timestamp: string
   }
-  type PDUMessage = PDUMessageCommon & (PDUMessageSubmit | PDUMessageDeliver)
+  type PDUMessage = PDUMessageSubmit | PDUMessageDeliver
 
   /**
    * This method parses the specified SMS-SUBMIT/DELIVER PDU data. The PDU data must be a HEX string or a Buffer object.
    * @param {String|Buffer} pdu
    */
-  function parse(pdu: string|Buffer): PDUMessage
+  function parse<T = PDUMessage>(pdu: string|Buffer): T
   /**
    * Generates PDUs from the specified `telephone number` and `message text`.
    * @param {string} phoneNumber
